@@ -1,6 +1,12 @@
 import pandas as pd
+import numpy as np
+
+from matplotlib import pyplot as plt
+import seaborn as sns
+
 import warnings
 import datetime as dt
+
 warnings.filterwarnings('ignore')
 
 # data loading
@@ -68,5 +74,11 @@ segmented_rfm['RFMScore'] = segmented_rfm.r_quartile.map(str) \
                             + segmented_rfm.m_quartile.map(str) # adding combined RFM score
 segmented_rfm.head()
 
-    # top 10 customers
+    # top customers
 print segmented_rfm[segmented_rfm['RFMScore']=='111'].sort_values('monetary_value', ascending=False).head(10)
+
+# visualize data
+graph_data = segmented_rfm[segmented_rfm['RFMScore']=='111'].sort_values('monetary_value', ascending=False).head(20)
+graph_data = graph_data.drop(['frequency', 'monetary_value'], axis=1)
+graph_data.plot.bar()
+plt.show()
